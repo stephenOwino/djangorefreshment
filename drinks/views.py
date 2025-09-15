@@ -12,12 +12,12 @@ from rest_framework import status
 # return json
 
 @api_view(['Get', 'Post'])
-def drink_list(request):
+def drink_list(request , format=None):
 
  if request.method == 'GET':
     drinks = Drink.objects.all()
-    serializer = DrinkSerializer(drinks, many = True)
-    return JsonResponse(serializer.data, safe=False)
+    serializer = DrinkSerializer(drinks, many =True)
+    return Response(serializer.data)
  
  if request.method == 'POST':
    serializer = DrinkSerializer(data=request.data)
@@ -27,7 +27,7 @@ def drink_list(request):
    
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def drink_detail(request, id):
+def drink_detail(request, id, format=None):
 
   try:
       drink = Drink.objects.get(pk = id)
@@ -50,6 +50,3 @@ def drink_detail(request, id):
   elif request.method == 'DELETE':
     drink.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-
